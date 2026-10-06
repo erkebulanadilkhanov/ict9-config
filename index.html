@@ -1,0 +1,382 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Computer Configuration · Grade 9 ICT</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+/* =====================================================================
+   НАСТРОЙКА GOOGLE FORMS — заполни в <script> внизу (блок CONFIG)
+   ===================================================================== */
+:root{
+  --bg:#f3f6fb; --card:#fff; --ink:#1b2440; --muted:#5d6785; --line:#dde3ef;
+  --brand:#2f4a8a; --brand2:#4f7ac7; --soft:#e7eefb; --teal:#2a9d8f;
+  --ok:#1f9d55; --okbg:#e3f6ea; --bad:#d64545; --badbg:#fdeaea; --warn:#b7791f; --warnbg:#fff4e0;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,system-ui,sans-serif;line-height:1.55;font-size:16px}
+.wrap{max-width:980px;margin:0 auto;padding:0 16px}
+header{background:linear-gradient(135deg,#253d75,#3f68b5);color:#fff;position:relative;overflow:hidden}
+header .bits{position:absolute;inset:0;font-family:'JetBrains Mono',monospace;font-size:13px;opacity:.12;white-space:pre;line-height:1.2;pointer-events:none;overflow:hidden}
+header .wrap{position:relative;padding:34px 16px 26px}
+.badge{display:inline-block;background:rgba(255,255,255,.18);padding:4px 12px;border-radius:999px;font-size:13px;font-weight:600;letter-spacing:.3px}
+h1{margin:12px 0 6px;font-size:clamp(26px,5vw,40px);font-weight:800;letter-spacing:-.5px}
+header p{margin:0;opacity:.9;max-width:640px}
+nav{position:sticky;top:0;z-index:10;background:#fff;border-bottom:1px solid var(--line)}
+nav .wrap{display:flex;gap:6px;overflow-x:auto;padding:10px 16px}
+nav button{flex:0 0 auto;border:0;background:var(--soft);color:var(--brand);font:600 15px Inter,sans-serif;padding:9px 16px;border-radius:10px;cursor:pointer}
+nav button.active{background:var(--brand);color:#fff}
+section.tab{display:none;padding:26px 0 60px}
+section.tab.active{display:block}
+h2{font-size:24px;margin:30px 0 12px;color:var(--brand)}
+h2:first-child{margin-top:0}
+h3{margin:0 0 6px;font-size:18px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px;margin-bottom:16px}
+.goal{display:flex;gap:14px;align-items:flex-start;border-left:5px solid var(--teal)}
+.goal .ico{font-size:30px}
+.grid{display:grid;gap:14px}
+.g3{grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
+.g2{grid-template-columns:repeat(auto-fit,minmax(280px,1fr))}
+.comp{background:#fff;border:1px solid var(--line);border-radius:16px;padding:18px;position:relative}
+.comp .em{font-size:34px;line-height:1}
+.comp .tag{position:absolute;top:14px;right:14px;font-size:12px;font-weight:700;background:var(--soft);color:var(--brand);padding:3px 9px;border-radius:999px}
+.comp p{margin:8px 0 0;color:var(--muted);font-size:15px}
+.key{background:var(--warnbg);border-radius:10px;padding:8px 12px;margin-top:10px;font-size:14px;color:#6b4a10}
+table{width:100%;border-collapse:collapse;font-size:15px}
+th,td{padding:10px 12px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+th{background:var(--soft);color:var(--brand)}
+.tbl{overflow-x:auto;border-radius:12px;border:1px solid var(--line);background:#fff}
+ol.q{margin:8px 0 0;padding-left:22px}
+.pill{display:inline-block;padding:3px 10px;border-radius:999px;font-size:13px;font-weight:600}
+.p-blue{background:var(--soft);color:var(--brand)}
+.p-teal{background:#dff3f0;color:#1d6f65}
+/* flip cards */
+.flip{perspective:900px;height:110px;cursor:pointer}
+.flip .in{position:relative;width:100%;height:100%;transition:transform .5s;transform-style:preserve-3d}
+.flip.on .in{transform:rotateY(180deg)}
+.flip .f,.flip .b{position:absolute;inset:0;border-radius:14px;display:flex;align-items:center;justify-content:center;text-align:center;padding:12px;backface-visibility:hidden;-webkit-backface-visibility:hidden}
+.flip .f{background:var(--brand);color:#fff;font-weight:700;font-size:18px}
+.flip .b{background:#fff;border:2px solid var(--brand2);transform:rotateY(180deg);font-size:15px}
+.hint{color:var(--muted);font-size:14px}
+/* practice */
+.choices{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0}
+.chip{border:2px solid var(--line);background:#fff;border-radius:12px;padding:9px 14px;font:500 15px Inter,sans-serif;cursor:pointer;color:var(--ink)}
+.chip:hover{border-color:var(--brand2)}
+.chip.sel{border-color:var(--brand);background:var(--soft);font-weight:700}
+.result{margin-top:12px;padding:12px 14px;border-radius:12px;font-weight:600;display:none}
+.result.ok{display:block;background:var(--okbg);color:#16683a}
+.result.bad{display:block;background:var(--badbg);color:#9b2c2c}
+.sort-item{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;padding:12px 0;border-bottom:1px solid var(--line)}
+.sort-item:last-child{border-bottom:0}
+.sort-item .btns{display:flex;gap:6px;flex-wrap:wrap}
+.sort-item .chip{padding:6px 12px;font-size:14px}
+.chip.right{border-color:var(--ok);background:var(--okbg)}
+.chip.wrong{border-color:var(--bad);background:var(--badbg)}
+/* formative */
+.field{display:flex;flex-direction:column;gap:6px;margin-bottom:14px}
+label.l{font-weight:600}
+input[type=text],select,textarea{font:16px Inter,sans-serif;padding:11px 12px;border:2px solid var(--line);border-radius:10px;background:#fff;color:var(--ink);width:100%}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--brand2)}
+textarea{min-height:120px;resize:vertical}
+.qcard{background:#fff;border:1px solid var(--line);border-radius:16px;padding:18px;margin-bottom:14px}
+.qnum{font-size:13px;font-weight:700;color:var(--brand2);text-transform:uppercase;letter-spacing:.5px}
+.qtext{font-weight:600;margin:4px 0 10px;font-size:17px}
+.opt{display:flex;gap:10px;align-items:flex-start;padding:10px 12px;border:2px solid var(--line);border-radius:12px;margin-bottom:8px;cursor:pointer}
+.opt:hover{border-color:var(--brand2)}
+.opt input{margin-top:4px;accent-color:var(--brand)}
+.opt.sel{border-color:var(--brand);background:var(--soft)}
+.opt.right{border-color:var(--ok);background:var(--okbg)}
+.opt.wrong{border-color:var(--bad);background:var(--badbg)}
+@media(max-width:520px){.btn{border:0;background:var(--brand);color:#fff;font:700 17px Inter,sans-serif;padding:14px 26px;border-radius:12px;cursor:pointer;width:100%}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+.btn.sec{background:var(--soft);color:var(--brand);width:auto;font-size:15px;padding:10px 18px}
+.alert{padding:12px 14px;border-radius:12px;margin-bottom:12px;font-weight:500}
+.alert.warn{background:var(--warnbg);color:#6b4a10}
+.alert.bad{background:var(--badbg);color:#9b2c2c}
+.score{text-align:center;padding:26px}
+.score .big{font-size:56px;font-weight:800;color:var(--brand);line-height:1}
+.crit{display:flex;gap:8px;align-items:center;font-size:15px;margin:4px 0}
+footer{text-align:center;color:var(--muted);font-size:13px;padding:20px 0 40px}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="bits" id="bits"></div>
+  <div class="wrap">
+    <span class="badge">ICT · Grade 9 · Chapter 1 · 1.5</span>
+    <h1>Computer Configuration</h1>
+    <p>How can I assemble a powerful computer? Learn the main components, check compatibility and choose hardware for a real task.</p>
+  </div>
+</header>
+
+<nav>
+  <div class="wrap">
+    <button class="active" data-tab="learn">📘 1. Learn</button>
+    <button data-tab="practice">🧩 2. Practice</button>
+    <button data-tab="test">📝 3. Formative task</button>
+  </div>
+</nav>
+
+<main class="wrap">
+
+<!-- ============================ LEARN ============================ -->
+<section class="tab active" id="learn">
+
+  <div class="card goal">
+    <div class="ico">🎯</div>
+    <div><h3>Learning objective</h3>
+    I will be able to choose hardware according to specific requirements.</div>
+  </div>
+
+  <h2>Before assembling, answer 3 questions</h2>
+  <div class="grid g3">
+    <div class="comp"><div class="em">❓</div><h3>Purpose</h3><p>What will the computer be used for — home, office, school or gaming?</p></div>
+    <div class="comp"><div class="em">🔌</div><h3>Components</h3><p>Which devices do I want to connect (printer, monitor, headset…)?</p></div>
+    <div class="comp"><div class="em">💰</div><h3>Budget</h3><p>How much money do I have to spend?</p></div>
+  </div>
+
+  <h2>Types of computers by purpose</h2>
+  <div class="tbl"><table>
+    <tr><th>Type</th><th>What it needs</th><th>Example</th></tr>
+    <tr><td><b>🏠 Home</b></td><td>Balanced parts, enough RAM for browsing, video, homework</td><td>Watching films, online lessons</td></tr>
+    <tr><td><b>🏢 Office</b></td><td>Reliable, simple CPU; <b>a printer is necessary</b></td><td>Documents, spreadsheets, email</td></tr>
+    <tr><td><b>🎮 Gaming</b></td><td><b>Powerful CPU, faster RAM, high-quality video card, good monitor</b></td><td>3D games, streaming</td></tr>
+  </table></div>
+
+  <h2>5 things to consider when buying a computer</h2>
+  <div class="grid g2">
+    <div class="comp"><span class="tag">Brain</span><div class="em">🧠</div><h3>CPU (Central Processing Unit)</h3>
+      <p>Executes all operations in the computer. Choose it first — according to your budget, preferences and tasks.</p>
+      <div class="key">Office: <b>1800–2200 MHz</b> · 3D graphics / video editing: <b>2800–3200 MHz</b></div></div>
+    <div class="comp"><span class="tag">Graphics</span><div class="em">🎮</div><h3>Video card</h3>
+      <p>Builds the image on the monitor. 4 types: <b>Integrated, PCI, AGP, PCI Express</b>. Gaming and video editing need a separate (PCI Express) card.</p></div>
+    <div class="comp"><span class="tag">Temporary</span><div class="em">⚡</div><h3>RAM (Random Access Memory)</h3>
+      <p>Stores currently running programs <b>temporarily</b>. More RAM → faster work. When the computer is turned off, RAM <b>loses its data</b>.</p></div>
+    <div class="comp"><span class="tag">Permanent</span><div class="em">💾</div><h3>HDD or SSD</h3>
+      <p>All files and folders are stored here <b>permanently</b>, even when the computer is off.</p></div>
+    <div class="comp" style="grid-column:1/-1"><span class="tag">Base</span><div class="em">🧩</div><h3>Motherboard (mainboard)</h3>
+      <p>Connects all parts together. Pay attention to its <b>processor interface (socket)</b>: the CPU and the motherboard must be <b>compatible</b>.</p>
+      <div class="key">Intel processors → <b>Socket 1150</b> &nbsp;|&nbsp; AMD processors → <b>Socket AM3, FM2, S-AM2</b><br>
+      <span class="hint">Modern examples: Intel LGA 1700 / LGA 1851, AMD AM5 — the rule is the same: socket must match!</span></div></div>
+  </div>
+
+  <h2>HDD vs SSD</h2>
+  <div class="tbl"><table>
+    <tr><th></th><th>💿 HDD (Hard Disk Drive)</th><th>⚡ SSD (Solid State Drive)</th></tr>
+    <tr><td><b>How it works</b></td><td>Spinning magnetic disks + moving head</td><td>Flash memory chips, no moving parts</td></tr>
+    <tr><td><b>Speed</b></td><td>Slower</td><td>Much faster (system boots in seconds)</td></tr>
+    <tr><td><b>Price per GB</b></td><td>Cheaper — more space for less money</td><td>More expensive</td></tr>
+    <tr><td><b>Shock / noise</b></td><td>Can break if dropped, makes noise</td><td>Shock-resistant, silent</td></tr>
+    <tr><td><b>Best for</b></td><td>Archive, big storage of photos/films</td><td>Operating system, programs, games</td></tr>
+  </table></div>
+
+  <h2>Terminology <span class="hint">(click a card)</span></h2>
+  <div class="grid g3" id="terms"></div>
+</section>
+
+<!-- ============================ PRACTICE ============================ -->
+<section class="tab" id="practice">
+
+  <h2>Lab 1 · Socket matcher</h2>
+  <div class="card">
+    <p style="margin-top:0">Choose a CPU and a motherboard. Will they work together?</p>
+    <b>CPU:</b>
+    <div class="choices" id="cpuChoices"></div>
+    <b>Motherboard:</b>
+    <div class="choices" id="mbChoices"></div>
+    <div class="result" id="sockRes"></div>
+  </div>
+
+  <h2>Lab 2 · Temporary or permanent?</h2>
+  <div class="card" id="memSort"></div>
+
+  <h2>Lab 3 · Which PC type needs it most?</h2>
+  <div class="card" id="typeSort"></div>
+
+  <h2>Activity · Discuss in groups</h2>
+  <div class="card">
+    <p style="margin-top:0"><b>All-in-one PC, Laptop or Desktop?</b> Decide which is the most suitable for:</p>
+    <div class="grid g3">
+      <div class="comp"><div class="em">🏫</div><h3>School</h3><p>Many students, cheap repair, upgrades?</p></div>
+      <div class="comp"><div class="em">🏢</div><h3>Office</h3><p>Small desk, quiet, printer?</p></div>
+      <div class="comp"><div class="em">🏠</div><h3>Home / self-use</h3><p>Mobility, gaming, family?</p></div>
+    </div>
+  </div>
+  <button class="btn" onclick="go('test')">I'm ready → Formative task</button>
+</section>
+
+<!-- ============================ TEST ============================ -->
+<section class="tab" id="test">
+  <div id="testForm">
+    <h2>Formative task · Computer Configuration</h2>
+    <div class="alert warn" id="cfgWarn" style="display:none">⚠️ Teacher: Google Form is not connected yet (see CONFIG in the code). Results will be shown but not sent.</div>
+    <div class="card">
+      <div class="field"><label class="l" for="sName">Full name / Аты-жөні</label><input type="text" id="sName" placeholder="Name Surname" autocomplete="name"></div>
+      <div class="field" style="margin-bottom:0"><label class="l" for="sClass">Class / Сынып</label>
+        <select id="sClass"><option value="">— choose —</option></select></div>
+    </div>
+
+    <div id="questions"></div>
+
+    <div class="qcard">
+      <div class="qnum">Task 11 · Open answer · teacher checks</div>
+      <div class="qtext">Compare HDD and SSD. Which one would you choose for a school computer and why? (2–4 sentences)</div>
+      <textarea id="open" placeholder="Write your answer in English…"></textarea>
+    </div>
+
+    <div class="alert bad" id="err" style="display:none"></div>
+    <button class="btn" id="submitBtn">Submit answers ✓</button>
+    <p class="hint" style="text-align:center">You can submit only once. Check your answers before submitting.</p>
+  </div>
+
+  <div id="done" style="display:none"></div>
+</section>
+</main>
+
+<footer>Атырау Білім-Инновация лицейі · ICT Grade 9</footer>
+
+<script>
+/* =====================================================================
+   CONFIG — Google Forms
+   1) Создай Google Form с 5 вопросами (тип «Текст (строка)» / «Абзац»):
+      Name, Class, Score, Details, Open answer
+   2) ⋮ → «Получить ссылку с предзаполненными ответами», впиши 1,2,3,4,5,
+      скопируй ссылку → оттуда возьми FORM_ID и номера entry.XXXX
+   ===================================================================== */
+const CONFIG = {
+  FORM_ID: "PASTE_FORM_ID_HERE",          // часть между /d/e/ и /viewform
+  ENTRY: {
+    name:    "entry.1111111111",
+    klass:   "entry.2222222222",
+    score:   "entry.3333333333",
+    details: "entry.4444444444",
+    open:    "entry.5555555555"
+  },
+  CLASSES: ["9A","9B","9C","9D","9E","9F"]
+};
+const FORM_READY = !CONFIG.FORM_ID.startsWith("PASTE");
+
+/* ---------- header binary ---------- */
+(()=>{let s="";for(let r=0;r<14;r++){for(let c=0;c<120;c++)s+=Math.random()<.5?"0 ":"1 ";s+="\n"}document.getElementById("bits").textContent=s})();
+
+/* ---------- tabs ---------- */
+function go(id){
+  document.querySelectorAll("nav button").forEach(b=>b.classList.toggle("active",b.dataset.tab===id));
+  document.querySelectorAll("section.tab").forEach(s=>s.classList.toggle("active",s.id===id));
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+document.querySelectorAll("nav button").forEach(b=>b.onclick=()=>go(b.dataset.tab));
+
+/* ---------- terminology ---------- */
+const TERMS=[
+ ["specific requirements","арнайы талаптар · особые требования"],
+ ["assemble","жинау · собирать"],
+ ["compatible","үйлесімді · совместимый"],
+ ["manufacturer","өндіруші · производитель"],
+ ["temporarily","уақытша · временно"],
+ ["permanently","тұрақты · постоянно"],
+ ["suitable","қолайлы · подходящий"],
+ ["socket","ұяшық (процессор интерфейсі) · сокет, разъём"],
+ ["configuration","конфигурация · конфигурация"]
+];
+document.getElementById("terms").innerHTML=TERMS.map(t=>`<div class="flip" onclick="this.classList.toggle('on')"><div class="in"><div class="f">${t[0]}</div><div class="b">${t[1]}</div></div></div>`).join("");
+
+/* ---------- Lab 1 socket ---------- */
+const CPUS=[["Intel Core i5-4590","1150"],["AMD Phenom II X4","AM3"],["AMD A8-6600K","FM2"]];
+const MBS=[["ASUS H81 (Socket 1150)","1150"],["Gigabyte 970 (Socket AM3)","AM3"],["MSI A68H (Socket FM2)","FM2"]];
+let selCpu=null,selMb=null;
+function chips(el,arr,cb){el.innerHTML="";arr.forEach((a,i)=>{const b=document.createElement("button");b.className="chip";b.textContent=a[0];b.onclick=()=>{[...el.children].forEach(c=>c.classList.remove("sel"));b.classList.add("sel");cb(i)};el.appendChild(b)})}
+function checkSock(){const r=document.getElementById("sockRes");if(selCpu===null||selMb===null){r.className="result";return}
+  if(CPUS[selCpu][1]===MBS[selMb][1]){r.className="result ok";r.textContent=`✅ Compatible! Both use Socket ${CPUS[selCpu][1]}.`}
+  else{r.className="result bad";r.textContent=`❌ Not compatible: CPU needs Socket ${CPUS[selCpu][1]}, but the motherboard has Socket ${MBS[selMb][1]}.`}}
+chips(document.getElementById("cpuChoices"),CPUS,i=>{selCpu=i;checkSock()});
+chips(document.getElementById("mbChoices"),MBS,i=>{selMb=i;checkSock()});
+
+/* ---------- Lab 2/3 sorting ---------- */
+function sorter(elId,items,cats){
+  const el=document.getElementById(elId);
+  items.forEach(([txt,ans])=>{
+    const row=document.createElement("div");row.className="sort-item";
+    row.innerHTML=`<span>${txt}</span><div class="btns"></div>`;
+    const bx=row.querySelector(".btns");
+    cats.forEach(c=>{const b=document.createElement("button");b.className="chip";b.textContent=c;
+      b.onclick=()=>{[...bx.children].forEach(x=>x.classList.remove("right","wrong"));b.classList.add(c===ans?"right":"wrong")};bx.appendChild(b)});
+    el.appendChild(row)});
+}
+sorter("memSort",[["RAM","Temporary"],["HDD","Permanent"],["SSD","Permanent"],["Opened Word document that is not saved","Temporary"],["Photos saved in a folder","Permanent"]],["Temporary","Permanent"]);
+sorter("typeSort",[["Printer","Office"],["High-quality video card","Gaming"],["Fast RAM + powerful CPU","Gaming"],["Simple CPU 1800–2200 MHz","Office"],["Good monitor with high refresh rate","Gaming"]],["Office","Gaming"]);
+
+/* ---------- Formative questions ---------- */
+const Q=[
+ {q:"Which component executes all operations in the computer?",o:["RAM","CPU","HDD","Video card"],a:1},
+ {q:"What happens to the data in RAM when the computer is turned off?",o:["It is saved permanently","It moves to the video card","It is lost","It is printed"],a:2},
+ {q:"Where are all files and folders stored permanently?",o:["RAM","HDD / SSD","CPU","Socket"],a:1},
+ {q:"What is a socket?",o:["A type of RAM","A processor interface that connects the CPU to the motherboard","A program for video editing","A type of monitor"],a:1},
+ {q:"According to the textbook, Intel processors are compatible with…",o:["Socket AM3","Socket FM2","Socket 1150","Socket S-AM2"],a:2},
+ {q:"Which of these is NOT a type of video card?",o:["Integrated","AGP","PCI Express","USB"],a:3},
+ {q:"Which device is necessary for an office computer?",o:["Printer","Gaming headset","VR helmet","Joystick"],a:0},
+ {q:"Which set of components is most important for a gaming computer?",o:["Printer and scanner","Powerful CPU, faster RAM, high-quality video card, good monitor","Only a big HDD","Integrated video card and 2 GB RAM"],a:1},
+ {q:"Which CPU clock speed is recommended for 3D graphics and video editing?",o:["800–1000 MHz","1800–2200 MHz","2800–3200 MHz","100–200 MHz"],a:2},
+ {q:"Which statement about SSD is TRUE?",o:["It has spinning disks","It is faster and has no moving parts","It loses data when power is off","It is the same as RAM"],a:1}
+];
+// shuffle options per student
+function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+const QS=Q.map(x=>{const idx=shuffle([...x.o.keys()]);return{q:x.q,o:idx.map(i=>x.o[i]),a:idx.indexOf(x.a)}});
+document.getElementById("questions").innerHTML=QS.map((x,i)=>`
+ <div class="qcard"><div class="qnum">Task ${i+1} · 1 point</div><div class="qtext">${x.q}</div>
+ ${x.o.map((o,j)=>`<label class="opt" data-q="${i}"><input type="radio" name="q${i}" value="${j}"><span>${o}</span></label>`).join("")}</div>`).join("");
+document.querySelectorAll(".opt input").forEach(r=>r.addEventListener("change",()=>{
+  document.querySelectorAll(`.opt[data-q="${r.closest('.opt').dataset.q}"]`).forEach(o=>o.classList.toggle("sel",o.querySelector("input").checked))}));
+
+/* ---------- classes ---------- */
+const sc=document.getElementById("sClass");CONFIG.CLASSES.forEach(c=>sc.insertAdjacentHTML("beforeend",`<option>${c}</option>`));
+if(!FORM_READY)document.getElementById("cfgWarn").style.display="block";
+
+/* ---------- submit ---------- */
+function already(){try{return localStorage.getItem("cc9_done")==="1"}catch(e){return false}}
+document.getElementById("submitBtn").onclick=async()=>{
+  const err=document.getElementById("err");err.style.display="none";
+  const name=document.getElementById("sName").value.trim(),klass=sc.value,open=document.getElementById("open").value.trim();
+  const unanswered=QS.map((_,i)=>document.querySelector(`input[name=q${i}]:checked`)?null:i+1).filter(Boolean);
+  const msg=[];
+  if(name.length<3)msg.push("write your full name");
+  if(!klass)msg.push("choose your class");
+  if(unanswered.length)msg.push("answer tasks: "+unanswered.join(", "));
+  if(open.length<15)msg.push("write the open answer (Task 11)");
+  if(msg.length){err.textContent="Please "+msg.join("; ")+".";err.style.display="block";err.scrollIntoView({behavior:"smooth",block:"center"});return}
+  if(already()&&!confirm("You have already submitted from this device. Submit again?"))return;
+
+  let pts=0;const det=[];
+  QS.forEach((x,i)=>{const v=+document.querySelector(`input[name=q${i}]:checked`).value,ok=v===x.a;if(ok)pts++;
+    det.push(`${i+1}) ${ok?"✓":"✗"} ${x.o[v]}`);
+    document.querySelectorAll(`.opt[data-q="${i}"]`).forEach((o,j)=>{o.classList.remove("sel");if(j===x.a)o.classList.add("right");else if(j===v)o.classList.add("wrong")})});
+  const max=10;
+
+  const btn=document.getElementById("submitBtn");btn.disabled=true;btn.textContent="Sending…";
+  let sent=false;
+  if(FORM_READY){
+    const d=new URLSearchParams();
+    d.append(CONFIG.ENTRY.name,name);d.append(CONFIG.ENTRY.klass,klass);
+    d.append(CONFIG.ENTRY.score,`${pts}/${max}`);d.append(CONFIG.ENTRY.details,det.join("\n"));d.append(CONFIG.ENTRY.open,open);
+    try{await fetch(`https://docs.google.com/forms/d/e/${CONFIG.FORM_ID}/formResponse`,{method:"POST",mode:"no-cors",body:d});sent=true}catch(e){sent=false}
+  }
+  try{localStorage.setItem("cc9_done","1")}catch(e){}
+
+  document.getElementById("testForm").style.display="none";
+  const done=document.getElementById("done");done.style.display="block";
+  done.innerHTML=`<div class="card score">
+    <div class="hint">${name} · ${klass}</div>
+    <div class="big">${pts}/${max}</div>
+    <div style="margin-top:6px">${pts>=9?"🌟 Excellent!":pts>=6?"👍 Good job!":"📘 Revise the lesson and try to explain the mistakes."}</div>
+    <p class="hint">${sent?"✅ Your answers were sent to the teacher.":FORM_READY?"⚠️ Could not send. Show this screen to the teacher.":"⚠️ Demo mode: results were not sent (form not connected)."}</p>
+    <p class="hint">Task 11 (open answer) will be checked by the teacher.</p></div>
+    <div class="card"><h3>Your answers</h3><div class="hint" style="white-space:pre-line">${det.join("\n")}</div></div>`;
+  window.scrollTo({top:document.getElementById("test").offsetTop-60,behavior:"smooth"});
+};
+</script>
+</body>
+</html>
